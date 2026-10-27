@@ -2,58 +2,59 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hamster Clone - Crypto Clicker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Путь от бомжа до миллионера</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             user-select: none;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
+            color: #fff;
             overflow-x: hidden;
-            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             padding: 20px;
-            border-radius: 0 0 30px 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .level-info {
+        .status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .level-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
+        .status-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px 20px;
+            border-radius: 25px;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .profit-per-hour {
-            background: rgba(0,255,0,0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            border: 1px solid #00ff88;
-        }
-
-        .balance-container {
+        .balance-display {
             text-align: center;
             margin: 20px 0;
         }
@@ -65,162 +66,122 @@
         }
 
         .balance {
-            font-size: 42px;
+            font-size: 48px;
             font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            color: #ffd700;
+        }
+
+        .income-info {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            justify-content: space-around;
+            margin-top: 15px;
+            flex-wrap: wrap;
             gap: 10px;
         }
 
-        .coin-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-        }
-
-        .energy-container {
-            background: rgba(255,255,255,0.1);
+        .income-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
             border-radius: 15px;
-            padding: 15px;
-            margin-top: 20px;
+            text-align: center;
         }
 
-        .energy-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
+        .income-label {
+            font-size: 12px;
+            opacity: 0.7;
         }
 
-        .energy-bar {
-            background: rgba(255,255,255,0.2);
-            height: 12px;
-            border-radius: 10px;
-            overflow: hidden;
+        .income-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ff88;
         }
 
-        .energy-fill {
-            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
-            height: 100%;
-            transition: width 0.3s;
-            border-radius: 10px;
+        /* Main Clicker */
+        .clicker-section {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Main Clicker Area */
-        .clicker-area {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            min-height: 300px;
-        }
-
-        .hamster-btn {
-            width: 280px;
-            height: 280px;
+        .clicker-btn {
+            width: 250px;
+            height: 250px;
             background: radial-gradient(circle, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
             border-radius: 50%;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 150px;
+            font-size: 100px;
             cursor: pointer;
             box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4), inset 0 -10px 30px rgba(0,0,0,0.2);
             transition: transform 0.1s;
-            position: relative;
             border: 8px solid #fff;
+            margin: 20px 0;
         }
 
-        .hamster-btn:active {
+        .clicker-btn:active {
             transform: scale(0.95);
         }
 
-        .hamster-btn::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-        }
-
         .click-effect {
-            position: absolute;
-            font-size: 28px;
+            position: fixed;
+            font-size: 32px;
             font-weight: bold;
             color: #ffd700;
             pointer-events: none;
             animation: floatUp 1s ease-out forwards;
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        @keyframes floatUp {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100px) scale(1.5);
-            }
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(22, 33, 62, 0.98);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
             z-index: 1000;
         }
 
-        .nav-item {
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-150px) scale(1.5); }
+        }
+
+        /* Tabs */
+        .tabs {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 15px;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: #fff;
             cursor: pointer;
             transition: all 0.3s;
-            border-radius: 10px;
+            font-weight: bold;
         }
 
-        .nav-item.active {
-            background: rgba(102, 126, 234, 0.3);
-            color: #667eea;
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        .nav-icon {
-            font-size: 24px;
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
         }
 
-        .nav-label {
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        /* Sections */
-        .section {
+        .tab-content {
             display: none;
-            padding: 20px;
-            animation: fadeIn 0.3s;
         }
 
-        .section.active {
+        .tab-content.active {
             display: block;
+            animation: fadeIn 0.3s;
         }
 
         @keyframes fadeIn {
@@ -228,159 +189,91 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .section-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
+        /* Business Cards */
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
         }
 
-        /* Cards/Mine Section */
-        .cards-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .card-category {
-            background: rgba(255,255,255,0.05);
+        .business-card {
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            padding: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .category-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .category-name {
-            font-size: 16px;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .category-profit {
-            font-size: 12px;
-            color: #00ff88;
-        }
-
-        .card-item {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s;
+            cursor: pointer;
         }
 
-        .card-item:hover {
-            transform: translateX(5px);
+        .business-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             border-color: #667eea;
         }
 
-        .card-item.purchased {
-            opacity: 0.6;
+        .business-card.affordable {
             border-color: #00ff88;
         }
 
-        .card-info {
-            flex: 1;
+        .business-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
         }
 
-        .card-name {
+        .business-name {
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 5px;
-            font-size: 14px;
         }
 
-        .card-profit {
-            font-size: 12px;
+        .business-income {
             color: #00ff88;
+            font-size: 14px;
+            margin-bottom: 10px;
         }
 
-        .card-price {
+        .business-price {
             background: linear-gradient(135deg, #ffd700, #ffed4e);
             color: #000;
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 14px;
+            display: inline-block;
         }
 
-        .card-item.purchased .card-price {
-            background: linear-gradient(135deg, #00ff88, #00cc66);
-            color: #fff;
+        .business-level {
+            float: right;
+            background: rgba(102, 126, 234, 0.5);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
         }
 
-        /* Friends Section */
-        .friends-list {
+        /* Tasks */
+        .task-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .friend-item {
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .friend-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .friend-info {
-            flex: 1;
-        }
-
-        .friend-name {
-            font-weight: bold;
-            margin-bottom: 3px;
-        }
-
-        .friend-earnings {
-            font-size: 12px;
-            color: #00ff88;
-        }
-
-        .invite-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* Tasks Section */
         .task-item {
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s;
+        }
+
+        .task-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            border-color: #00ff88;
         }
 
         .task-info {
@@ -390,26 +283,101 @@
         .task-name {
             font-weight: bold;
             margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .task-description {
+            font-size: 13px;
+            opacity: 0.7;
+            margin-bottom: 8px;
         }
 
         .task-reward {
-            font-size: 12px;
             color: #ffd700;
-        }
-
-        .claim-btn {
-            background: linear-gradient(135deg, #00ff88, #00cc66);
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
             font-weight: bold;
         }
 
-        .claim-btn.completed {
-            background: rgba(255,255,255,0.2);
+        .task-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .task-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .task-btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
             color: #fff;
+            cursor: not-allowed;
+        }
+
+        /* Achievements */
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .achievement-card.unlocked {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .achievement-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .achievement-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .achievement-desc {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffd700;
         }
 
         /* Modal */
@@ -420,7 +388,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 2000;
             align-items: center;
             justify-content: center;
@@ -432,136 +400,178 @@
         }
 
         .modal-content {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             border-radius: 20px;
             padding: 30px;
-            max-width: 400px;
+            max-width: 500px;
             width: 100%;
             text-align: center;
-            border: 2px solid #667eea;
+            border: 2px solid #ffd700;
+            animation: modalSlide 0.3s;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .modal-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             margin-bottom: 15px;
+            color: #ffd700;
         }
 
         .modal-text {
             margin-bottom: 20px;
-            opacity: 0.8;
+            font-size: 16px;
+            line-height: 1.5;
         }
 
         .modal-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #fff;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
             border: none;
-            padding: 15px 30px;
+            padding: 15px 40px;
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 16px;
-            width: 100%;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Event Notification */
+        .event-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 1500;
+            animation: slideIn 0.5s, slideOut 0.5s 4.5s forwards;
+            max-width: 300px;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes slideOut {
+            to { transform: translateX(400px); opacity: 0; }
+        }
+
+        .event-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+        .event-desc {
+            font-size: 14px;
+            opacity: 0.9;
         }
 
         /* Responsive */
-        @media (max-width: 480px) {
-            .hamster-btn {
-                width: 240px;
-                height: 240px;
-                font-size: 120px;
-            }
-            
+        @media (max-width: 768px) {
             .balance {
                 font-size: 36px;
+            }
+            
+            .clicker-btn {
+                width: 200px;
+                height: 200px;
+                font-size: 80px;
+            }
+            
+            .business-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-
-    <!-- Header -->
-    <div class="header">
-        <div class="level-info">
-            <div class="level-badge"> Level <span id="level">1</span></div>
-            <div class="profit-per-hour">💰 <span id="profitHour">0</span>/час</div>
-        </div>
-        
-        <div class="balance-container">
-            <div class="balance-label">Ваш баланс</div>
-            <div class="balance">
-                <div class="coin-icon">🪙</div>
-                <span id="balance">0</span>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="status-bar">
+                <div class="status-badge" id="statusBadge">🏚️ Бомж</div>
+                <div style="font-size: 14px; opacity: 0.8;">Уровень: <span id="levelDisplay">1</span></div>
+            </div>
+            
+            <div class="balance-display">
+                <div class="balance-label">Ваш капитал</div>
+                <div class="balance" id="balanceDisplay">0 ₽</div>
+            </div>
+            
+            <div class="income-info">
+                <div class="income-item">
+                    <div class="income-label">За клик</div>
+                    <div class="income-value" id="clickIncome">+1 ₽</div>
+                </div>
+                <div class="income-item">
+                    <div class="income-label">В секунду</div>
+                    <div class="income-value" id="passiveIncome">+0 ₽</div>
+                </div>
+                <div class="income-item">
+                    <div class="income-label">Всего заработано</div>
+                    <div class="income-value" id="totalEarned">0 ₽</div>
+                </div>
             </div>
         </div>
-        
-        <div class="energy-container">
-            <div class="energy-info">
-                <span> Энергия</span>
-                <span><span id="energy">1000</span>/<span id="maxEnergy">1000</span></span>
-            </div>
-            <div class="energy-bar">
-                <div class="energy-fill" id="energyBar" style="width: 100%"></div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Main Clicker Section -->
-    <div id="exchangeSection" class="section active">
-        <div class="clicker-area">
-            <div class="hamster-btn" id="hamsterBtn"></div>
+        <!-- Clicker Section -->
+        <div class="clicker-section">
+            <h2 style="margin-bottom: 20px;">Работай и зарабатывай!</h2>
+            <div class="clicker-btn" id="clickerBtn">💪</div>
+            <p style="opacity: 0.8;">Тапай, чтобы зарабатывать деньги</p>
         </div>
-    </div>
 
-    <!-- Mine/Cards Section -->
-    <div id="mineSection" class="section">
-        <div class="section-title"> Майнинг ферма</div>
-        <div class="cards-container" id="cardsContainer"></div>
-    </div>
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('business')">🏢 Бизнесы</button>
+            <button class="tab-btn" onclick="switchTab('tasks')">📋 Задания</button>
+            <button class="tab-btn" onclick="switchTab('achievements')">🏆 Достижения</button>
+            <button class="tab-btn" onclick="switchTab('stats')">📊 Статистика</button>
+        </div>
 
-    <!-- Friends Section -->
-    <div id="friendsSection" class="section">
-        <div class="section-title">👥 Друзья</div>
-        <div style="background: rgba(102,126,234,0.2); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
-            <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Пригласи друзей</div>
-            <div style="font-size: 14px; opacity: 0.8; margin-bottom: 15px;">Получай 10% от их заработка</div>
-            <button class="invite-btn" onclick="inviteFriend()">📩 Пригласить</button>
+        <!-- Business Tab -->
+        <div id="businessTab" class="tab-content active">
+            <h2 style="margin-bottom: 20px;">Купи бизнес и получай пассивный доход</h2>
+            <div class="business-grid" id="businessGrid"></div>
         </div>
-        <div class="friends-list" id="friendsList"></div>
-    </div>
 
-    <!-- Tasks Section -->
-    <div id="tasksSection" class="section">
-        <div class="section-title">📋 Задания</div>
-        <div id="tasksContainer"></div>
-    </div>
+        <!-- Tasks Tab -->
+        <div id="tasksTab" class="tab-content">
+            <h2 style="margin-bottom: 20px;">Выполняй задания и получай награды</h2>
+            <div class="task-list" id="taskList"></div>
+        </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('exchange')">
-            <div class="nav-icon"></div>
-            <div class="nav-label">Биржа</div>
+        <!-- Achievements Tab -->
+        <div id="achievementsTab" class="tab-content">
+            <h2 style="margin-bottom: 20px;">Твои достижения</h2>
+            <div class="achievement-grid" id="achievementGrid"></div>
         </div>
-        <div class="nav-item" onclick="switchTab('mine')">
-            <div class="nav-icon">⛏️</div>
-            <div class="nav-label">Шахта</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('friends')">
-            <div class="nav-icon">👥</div>
-            <div class="nav-label">Друзья</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('tasks')">
-            <div class="nav-icon">📋</div>
-            <div class="nav-label">Задания</div>
+
+        <!-- Stats Tab -->
+        <div id="statsTab" class="tab-content">
+            <h2 style="margin-bottom: 20px;">Статистика игры</h2>
+            <div class="stats-grid" id="statsGrid"></div>
         </div>
     </div>
 
     <!-- Modal -->
     <div class="modal" id="modal">
         <div class="modal-content">
-            <div class="modal-title" id="modalTitle">🎉 Поздравляем!</div>
+            <div class="modal-title" id="modalTitle"> Поздравляем!</div>
             <div class="modal-text" id="modalText"></div>
-            <button class="modal-btn" onclick="closeModal()">OK</button>
+            <button class="modal-btn" onclick="closeModal()">Продолжить</button>
         </div>
     </div>
 
@@ -569,290 +579,333 @@
         // Game State
         let gameState = {
             balance: 0,
-            energy: 1000,
-            maxEnergy: 1000,
+            totalEarned: 0,
+            totalClicks: 0,
+            clickPower: 1,
+            passiveIncome: 0,
             level: 1,
-            profitPerHour: 0,
-            clickValue: 1,
-            cards: [],
-            tasks: [],
-            friends: [],
+            businesses: {},
+            tasksCompleted: [],
+            achievementsUnlocked: [],
+            startTime: Date.now(),
             lastSave: Date.now()
         };
 
-        // Cards Data
-        const cardsData = [
-            {
-                category: "Рынки",
-                items: [
-                    { id: 'c1', name: 'Форекс', profit: 100, price: 100, icon: '' },
-                    { id: 'c2', name: 'Криптобиржа', profit: 500, price: 1000, icon: '' },
-                    { id: 'c3', name: 'Акции', profit: 1000, price: 5000, icon: '📈' }
-                ]
-            },
-            {
-                category: "IT и стартапы",
-                items: [
-                    { id: 'c4', name: 'Веб-студия', profit: 2000, price: 10000, icon: '💻' },
-                    { id: 'c5', name: 'Мобильное приложение', profit: 5000, price: 25000, icon: '📱' },
-                    { id: 'c6', name: 'AI стартап', profit: 10000, price: 50000, icon: '🤖' }
-                ]
-            },
-            {
-                category: "Недвижимость",
-                items: [
-                    { id: 'c7', name: 'Квартира', profit: 15000, price: 100000, icon: '' },
-                    { id: 'c8', name: 'Офис', profit: 30000, price: 250000, icon: '🏢' },
-                    { id: 'c9', name: 'ТЦ', profit: 75000, price: 500000, icon: '️' }
-                ]
-            },
-            {
-                category: "Крипта",
-                items: [
-                    { id: 'c10', name: 'Майнинг ферма', profit: 50000, price: 1000000, icon: '⛏️' },
-                    { id: 'c11', name: 'DeFi протокол', profit: 100000, price: 2500000, icon: '💎' },
-                    { id: 'c12', name: 'NFT коллекция', profit: 250000, price: 5000000, icon: '' }
-                ]
-            }
+        // Status Levels
+        const statusLevels = [
+            { name: 'Бомж', icon: '️', threshold: 0 },
+            { name: 'Нищий', icon: '😢', threshold: 1000 },
+            { name: 'Бедняк', icon: '😟', threshold: 10000 },
+            { name: 'Рабочий', icon: '', threshold: 100000 },
+            { name: 'Средний класс', icon: '👔', threshold: 1000000 },
+            { name: 'Богач', icon: '💼', threshold: 10000000 },
+            { name: 'Миллионер', icon: '🤑', threshold: 100000000 },
+            { name: 'Мультимиллионер', icon: '💎', threshold: 1000000000 },
+            { name: 'Миллиардер', icon: '👑', threshold: 10000000000 },
+            { name: 'Олигарх', icon: '🏆', threshold: 100000000000 },
+            { name: 'Магнат', icon: '🌟', threshold: 1000000000000 },
+            { name: 'Легенда', icon: '⚡', threshold: 10000000000000 }
         ];
 
-        // Tasks Data
-        const tasksData = [
-            { id: 't1', name: 'Подписаться на Telegram', reward: 5000, completed: false },
-            { id: 't2', name: 'Подписаться на YouTube', reward: 5000, completed: false },
-            { id: 't3', name: 'Пригласить 3 друзей', reward: 15000, completed: false },
-            { id: 't4', name: 'Купить 5 карт', reward: 10000, completed: false }
+        // Businesses
+        const businesses = [
+            { id: 'lemonade', name: 'Ларёк с лимонадом', icon: '🍋', basePrice: 100, income: 1 },
+            { id: 'newspaper', name: 'Газетный киоск', icon: '📰', basePrice: 500, income: 5 },
+            { id: 'carwash', name: 'Автомойка', icon: '🚗', basePrice: 2000, income: 20 },
+            { id: 'cafe', name: 'Кафе', icon: '☕', basePrice: 10000, income: 100 },
+            { id: 'shop', name: 'Магазин', icon: '', basePrice: 50000, income: 500 },
+            { id: 'restaurant', name: 'Ресторан', icon: '🍽️', basePrice: 200000, income: 2000 },
+            { id: 'hotel', name: 'Отель', icon: '🏨', basePrice: 1000000, income: 10000 },
+            { id: 'casino', name: 'Казино', icon: '🎰', basePrice: 5000000, income: 50000 },
+            { id: 'bank', name: 'Банк', icon: '🏦', basePrice: 25000000, income: 250000 },
+            { id: 'oil', name: 'Нефтяная компания', icon: '⛽', basePrice: 100000000, income: 1000000 },
+            { id: 'tech', name: 'IT-корпорация', icon: '💻', basePrice: 500000000, income: 5000000 },
+            { id: 'space', name: 'Космическая компания', icon: '🚀', basePrice: 2500000000, income: 25000000 }
         ];
 
-        // Load game
+        // Tasks
+        const tasks = [
+            { id: 't1', name: 'Первые шаги', description: 'Заработай 1000 ₽', reward: 500, check: () => gameState.totalEarned >= 1000 },
+            { id: 't2', name: 'Трудяга', description: 'Сделай 100 кликов', reward: 1000, check: () => gameState.totalClicks >= 100 },
+            { id: 't3', name: 'Предприниматель', description: 'Купи первый бизнес', reward: 2000, check: () => Object.keys(gameState.businesses).length > 0 },
+            { id: 't4', name: 'Тысячник', description: 'Заработай 10,000 ₽', reward: 5000, check: () => gameState.totalEarned >= 10000 },
+            { id: 't5', name: 'Бизнесмен', description: 'Купи 5 разных бизнесов', reward: 10000, check: () => Object.keys(gameState.businesses).length >= 5 },
+            { id: 't6', name: 'Миллионер', description: 'Накопи 1,000,000 ₽', reward: 50000, check: () => gameState.balance >= 1000000 },
+            { id: 't7', name: 'Кликер-мастер', description: 'Сделай 1000 кликов', reward: 20000, check: () => gameState.totalClicks >= 1000 },
+            { id: 't8', name: 'Магнат', description: 'Заработай 100,000,000 ₽', reward: 100000, check: () => gameState.totalEarned >= 100000000 },
+            { id: 't9', name: 'Империя', description: 'Купи все виды бизнесов', reward: 500000, check: () => Object.keys(gameState.businesses).length >= businesses.length },
+            { id: 't10', name: 'Легенда', description: 'Достигни статуса Легенда', reward: 1000000, check: () => gameState.level >= statusLevels.length }
+        ];
+
+        // Achievements
+        const achievements = [
+            { id: 'a1', name: 'Первые деньги', icon: '💵', description: 'Заработай первую 1000 ₽', check: () => gameState.totalEarned >= 1000 },
+            { id: 'a2', name: 'Кликомания', icon: '👆', description: 'Сделай 1000 кликов', check: () => gameState.totalClicks >= 1000 },
+            { id: 'a3', name: 'Бизнес-империя', icon: '', description: 'Купи 10 бизнесов', check: () => Object.keys(gameState.businesses).length >= 10 },
+            { id: 'a4', name: 'Миллионер', icon: '💰', description: 'Накопи миллион', check: () => gameState.balance >= 1000000 },
+            { id: 'a5', name: 'Миллиардер', icon: '💎', description: 'Накопи миллиард', check: () => gameState.balance >= 1000000000 },
+            { id: 'a6', name: 'Трудоголик', icon: '', description: 'Играй 1 час', check: () => (Date.now() - gameState.startTime) >= 3600000 },
+            { id: 'a7', name: 'Коллекционер', icon: '🎯', description: 'Выполни все задания', check: () => gameState.tasksCompleted.length >= tasks.length },
+            { id: 'a8', name: 'Легенда', icon: '👑', description: 'Достигни максимального статуса', check: () => gameState.level >= statusLevels.length }
+        ];
+
+        // Load Game
         function loadGame() {
-            const saved = localStorage.getItem('hamsterCloneGame');
+            const saved = localStorage.getItem('bomzhToMillionaire');
             if (saved) {
                 gameState = JSON.parse(saved);
-                // Restore cards state
-                cardsData.forEach(cat => {
-                    cat.items.forEach(card => {
-                        const savedCard = gameState.cards.find(c => c.id === card.id);
-                        if (savedCard) {
-                            card.purchased = savedCard.purchased;
-                        }
-                    });
-                });
-                // Restore tasks
-                gameState.tasks.forEach(savedTask => {
-                    const task = tasksData.find(t => t.id === savedTask.id);
-                    if (task) task.completed = savedTask.completed;
+                // Restore businesses
+                businesses.forEach(b => {
+                    if (!gameState.businesses[b.id]) {
+                        gameState.businesses[b.id] = 0;
+                    }
                 });
             }
             updateUI();
-            renderCards();
+            renderBusinesses();
             renderTasks();
+            renderAchievements();
+            renderStats();
         }
 
-        // Save game
+        // Save Game
         function saveGame() {
-            gameState.cards = cardsData.flatMap(cat => 
-                cat.items.map(item => ({ id: item.id, purchased: item.purchased }))
-            );
-            gameState.tasks = tasksData.map(t => ({ id: t.id, completed: t.completed }));
             gameState.lastSave = Date.now();
-            localStorage.setItem('hamsterCloneGame', JSON.stringify(gameState));
+            localStorage.setItem('bomzhToMillionaire', JSON.stringify(gameState));
         }
 
         // Update UI
         function updateUI() {
-            document.getElementById('balance').textContent = Math.floor(gameState.balance).toLocaleString();
-            document.getElementById('energy').textContent = Math.floor(gameState.energy);
-            document.getElementById('maxEnergy').textContent = gameState.maxEnergy;
-            document.getElementById('profitHour').textContent = gameState.profitPerHour.toLocaleString();
-            document.getElementById('level').textContent = gameState.level;
-            
-            const energyPercent = (gameState.energy / gameState.maxEnergy) * 100;
-            document.getElementById('energyBar').style.width = energyPercent + '%';
+            // Calculate current status
+            let currentStatus = statusLevels[0];
+            for (let i = statusLevels.length - 1; i >= 0; i--) {
+                if (gameState.balance >= statusLevels[i].threshold) {
+                    currentStatus = statusLevels[i];
+                    gameState.level = i + 1;
+                    break;
+                }
+            }
+
+            document.getElementById('statusBadge').textContent = `${currentStatus.icon} ${currentStatus.name}`;
+            document.getElementById('levelDisplay').textContent = gameState.level;
+            document.getElementById('balanceDisplay').textContent = formatMoney(gameState.balance);
+            document.getElementById('clickIncome').textContent = `+${formatMoney(gameState.clickPower)} ₽`;
+            document.getElementById('passiveIncome').textContent = `+${formatMoney(gameState.passiveIncome)} ₽/с`;
+            document.getElementById('totalEarned').textContent = formatMoney(gameState.totalEarned);
+
+            // Update clicker button emoji based on status
+            const clickerBtn = document.getElementById('clickerBtn');
+            if (gameState.level <= 2) clickerBtn.textContent = '💪';
+            else if (gameState.level <= 4) clickerBtn.textContent = '👷';
+            else if (gameState.level <= 6) clickerBtn.textContent = '💼';
+            else if (gameState.level <= 8) clickerBtn.textContent = '🤑';
+            else if (gameState.level <= 10) clickerBtn.textContent = '';
+            else clickerBtn.textContent = '';
         }
 
-        // Render Cards
-        function renderCards() {
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = '';
+        // Format Money
+        function formatMoney(amount) {
+            if (amount >= 1000000000000) return (amount / 1000000000000).toFixed(2) + ' трлн';
+            if (amount >= 1000000000) return (amount / 1000000000).toFixed(2) + ' млрд';
+            if (amount >= 1000000) return (amount / 1000000).toFixed(2) + ' млн';
+            if (amount >= 1000) return (amount / 1000).toFixed(2) + ' тыс';
+            return Math.floor(amount).toString();
+        }
+
+        // Click Handler
+        document.getElementById('clickerBtn').addEventListener('click', (e) => {
+            gameState.balance += gameState.clickPower;
+            gameState.totalEarned += gameState.clickPower;
+            gameState.totalClicks++;
             
-            cardsData.forEach(category => {
-                const catDiv = document.createElement('div');
-                catDiv.className = 'card-category';
+            updateUI();
+            checkTasks();
+            checkAchievements();
+            
+            // Click effect
+            const effect = document.createElement('div');
+            effect.className = 'click-effect';
+            effect.textContent = '+' + formatMoney(gameState.clickPower);
+            effect.style.left = e.clientX + 'px';
+            effect.style.top = e.clientY + 'px';
+            document.body.appendChild(effect);
+            
+            setTimeout(() => effect.remove(), 1000);
+        });
+
+        // Render Businesses
+        function renderBusinesses() {
+            const grid = document.getElementById('businessGrid');
+            grid.innerHTML = '';
+            
+            businesses.forEach(business => {
+                const level = gameState.businesses[business.id] || 0;
+                const price = Math.floor(business.basePrice * Math.pow(1.15, level));
+                const income = business.income * (level + 1);
                 
-                const totalProfit = category.items.reduce((sum, card) => 
-                    sum + (card.purchased ? card.profit : 0), 0);
-                
-                catDiv.innerHTML = `
-                    <div class="category-header">
-                        <div class="category-name">${category.category}</div>
-                        <div class="category-profit">+${totalProfit.toLocaleString()}/час</div>
-                    </div>
+                const card = document.createElement('div');
+                card.className = 'business-card' + (gameState.balance >= price ? ' affordable' : '');
+                card.innerHTML = `
+                    <div class="business-level">Ур. ${level}</div>
+                    <div class="business-icon">${business.icon}</div>
+                    <div class="business-name">${business.name}</div>
+                    <div class="business-income">+${formatMoney(income)} ₽/с</div>
+                    <div class="business-price">${formatMoney(price)} ₽</div>
                 `;
                 
-                category.items.forEach(card => {
-                    const cardDiv = document.createElement('div');
-                    cardDiv.className = 'card-item' + (card.purchased ? ' purchased' : '');
-                    cardDiv.innerHTML = `
-                        <div class="card-info">
-                            <div class="card-name">${card.icon} ${card.name}</div>
-                            <div class="card-profit">+${card.profit.toLocaleString()}/час</div>
-                        </div>
-                        <div class="card-price">${card.purchased ? '✓' : card.price.toLocaleString() + ' 🪙'}</div>
-                    `;
-                    
-                    if (!card.purchased) {
-                        cardDiv.onclick = () => buyCard(card);
-                    }
-                    
-                    catDiv.appendChild(cardDiv);
-                });
-                
-                container.appendChild(catDiv);
+                card.onclick = () => buyBusiness(business);
+                grid.appendChild(card);
             });
         }
 
-        // Buy Card
-        function buyCard(card) {
-            if (gameState.balance >= card.price && gameState.energy >= 10) {
-                gameState.balance -= card.price;
-                gameState.energy -= 10;
-                card.purchased = true;
-                gameState.profitPerHour += card.profit;
-                gameState.level = Math.floor(gameState.profitPerHour / 1000) + 1;
+        // Buy Business
+        function buyBusiness(business) {
+            const level = gameState.businesses[business.id] || 0;
+            const price = Math.floor(business.basePrice * Math.pow(1.15, level));
+            
+            if (gameState.balance >= price) {
+                gameState.balance -= price;
+                gameState.businesses[business.id] = level + 1;
+                gameState.passiveIncome += business.income;
+                gameState.clickPower += Math.floor(business.income / 10);
                 
                 updateUI();
-                renderCards();
+                renderBusinesses();
+                checkTasks();
                 saveGame();
                 
-                showModal(' Покупка!', `Вы купили ${card.name} за ${card.price.toLocaleString()} монет!`);
+                showNotification(' Покупка!', `Вы купили ${business.name} (Уровень ${level + 1})`);
             } else {
-                showModal('❌ Недостаточно средств', 'Накопите больше монет или восстановите энергию!');
+                showNotification('❌ Недостаточно денег', `Нужно ещё ${formatMoney(price - gameState.balance)} ₽`);
             }
         }
 
         // Render Tasks
         function renderTasks() {
-            const container = document.getElementById('tasksContainer');
-            container.innerHTML = '';
+            const list = document.getElementById('taskList');
+            list.innerHTML = '';
             
-            tasksData.forEach(task => {
-                const taskDiv = document.createElement('div');
-                taskDiv.className = 'task-item';
-                taskDiv.innerHTML = `
+            tasks.forEach(task => {
+                const completed = gameState.tasksCompleted.includes(task.id);
+                const item = document.createElement('div');
+                item.className = 'task-item' + (completed ? ' completed' : '');
+                item.innerHTML = `
                     <div class="task-info">
                         <div class="task-name">${task.name}</div>
-                        <div class="task-reward">🎁 +${task.reward.toLocaleString()} монет</div>
+                        <div class="task-description">${task.description}</div>
+                        <div class="task-reward">🎁 Награда: ${formatMoney(task.reward)} ₽</div>
                     </div>
-                    <button class="claim-btn ${task.completed ? 'completed' : ''}" 
-                            onclick="claimTask('${task.id}')" 
-                            ${task.completed ? 'disabled' : ''}>
-                        ${task.completed ? '✓' : 'Забрать'}
+                    <button class="task-btn" ${completed ? 'disabled' : ''} onclick="claimTask('${task.id}')">
+                        ${completed ? '✓ Выполнено' : 'Забрать'}
                     </button>
                 `;
-                container.appendChild(taskDiv);
+                list.appendChild(item);
             });
+        }
+
+        // Check Tasks
+        function checkTasks() {
+            tasks.forEach(task => {
+                if (!gameState.tasksCompleted.includes(task.id) && task.check()) {
+                    // Task is ready to claim
+                }
+            });
+            renderTasks();
         }
 
         // Claim Task
         function claimTask(taskId) {
-            const task = tasksData.find(t => t.id === taskId);
-            if (task && !task.completed) {
-                task.completed = true;
+            const task = tasks.find(t => t.id === taskId);
+            if (task && !gameState.tasksCompleted.includes(taskId) && task.check()) {
+                gameState.tasksCompleted.push(taskId);
                 gameState.balance += task.reward;
+                gameState.totalEarned += task.reward;
+                
                 updateUI();
                 renderTasks();
+                checkAchievements();
                 saveGame();
-                showModal('🎁 Награда!', `Вы получили ${task.reward.toLocaleString()} монет!`);
+                
+                showModal('🎁 Задание выполнено!', `Вы получили ${formatMoney(task.reward)} ₽ за выполнение задания "${task.name}"!`);
             }
         }
 
-        // Click Handler
-        document.getElementById('hamsterBtn').addEventListener('click', (e) => {
-            if (gameState.energy >= 1) {
-                const clickValue = gameState.clickValue + Math.floor(gameState.profitPerHour / 100);
-                gameState.balance += clickValue;
-                gameState.energy -= 1;
-                
-                updateUI();
-                
-                // Click effect
-                const effect = document.createElement('div');
-                effect.className = 'click-effect';
-                effect.textContent = '+' + clickValue;
-                effect.style.left = e.clientX + 'px';
-                effect.style.top = e.clientY + 'px';
-                document.body.appendChild(effect);
-                
-                setTimeout(() => effect.remove(), 1000);
-            } else {
-                showModal('⚡ Нет энергии', 'Подождите восстановления энергии!');
-            }
-        });
+        // Render Achievements
+        function renderAchievements() {
+            const grid = document.getElementById('achievementGrid');
+            grid.innerHTML = '';
+            
+            achievements.forEach(achievement => {
+                const unlocked = gameState.achievementsUnlocked.includes(achievement.id);
+                const card = document.createElement('div');
+                card.className = 'achievement-card' + (unlocked ? ' unlocked' : '');
+                card.innerHTML = `
+                    <div class="achievement-icon">${achievement.icon}</div>
+                    <div class="achievement-name">${achievement.name}</div>
+                    <div class="achievement-desc">${achievement.description}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
 
-        // Energy regeneration
-        setInterval(() => {
-            if (gameState.energy < gameState.maxEnergy) {
-                gameState.energy = Math.min(gameState.maxEnergy, gameState.energy + 3);
-                updateUI();
-            }
-        }, 1000);
+        // Check Achievements
+        function checkAchievements() {
+            achievements.forEach(achievement => {
+                if (!gameState.achievementsUnlocked.includes(achievement.id) && achievement.check()) {
+                    gameState.achievementsUnlocked.push(achievement.id);
+                    showNotification('🏆 Достижение разблокировано!', achievement.name);
+                }
+            });
+            renderAchievements();
+        }
 
-        // Passive profit
-        setInterval(() => {
-            if (gameState.profitPerHour > 0) {
-                const profit = gameState.profitPerHour / 3600; // per second
-                gameState.balance += profit;
-                updateUI();
-            }
-        }, 1000);
-
-        // Auto-save
-        setInterval(saveGame, 5000);
+        // Render Stats
+        function renderStats() {
+            const grid = document.getElementById('statsGrid');
+            const playTime = Math.floor((Date.now() - gameState.startTime) / 1000);
+            const hours = Math.floor(playTime / 3600);
+            const minutes = Math.floor((playTime % 3600) / 60);
+            
+            grid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-label">Всего кликов</div>
+                    <div class="stat-value">${gameState.totalClicks.toLocaleString()}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Всего заработано</div>
+                    <div class="stat-value">${formatMoney(gameState.totalEarned)} ₽</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Бизнесов куплено</div>
+                    <div class="stat-value">${Object.keys(gameState.businesses).length}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Заданий выполнено</div>
+                    <div class="stat-value">${gameState.tasksCompleted.length}/${tasks.length}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Достижений</div>
+                    <div class="stat-value">${gameState.achievementsUnlocked.length}/${achievements.length}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Время в игре</div>
+                    <div class="stat-value">${hours}ч ${minutes}м</div>
+                </div>
+            `;
+        }
 
         // Switch Tab
         function switchTab(tab) {
-            // Update nav
-            document.querySelectorAll('.nav-item').forEach((item, index) => {
-                item.classList.remove('active');
-                if ((tab === 'exchange' && index === 0) ||
-                    (tab === 'mine' && index === 1) ||
-                    (tab === 'friends' && index === 2) ||
-                    (tab === 'tasks' && index === 3)) {
-                    item.classList.add('active');
-                }
-            });
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
-            // Update sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
             
-            if (tab === 'exchange') {
-                document.getElementById('exchangeSection').classList.add('active');
-            } else if (tab === 'mine') {
-                document.getElementById('mineSection').classList.add('active');
-            } else if (tab === 'friends') {
-                document.getElementById('friendsSection').classList.add('active');
-            } else if (tab === 'tasks') {
-                document.getElementById('tasksSection').classList.add('active');
-            }
+            if (tab === 'stats') renderStats();
         }
 
-        // Invite Friend
-        function inviteFriend() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Hamster Clone',
-                    text: 'Присоединяйся к Hamster Clone и зарабатывай монеты!',
-                    url: window.location.href
-                });
-            } else {
-                showModal('📩 Пригласить друга', 'Скопируй ссылку и отправь другу:\n\n' + window.location.href);
-            }
-        }
-
-        // Modal
+        // Show Modal
         function showModal(title, text) {
             document.getElementById('modalTitle').textContent = title;
             document.getElementById('modalText').textContent = text;
@@ -863,18 +916,50 @@
             document.getElementById('modal').classList.remove('active');
         }
 
+        // Show Notification
+        function showNotification(title, desc) {
+            const notif = document.createElement('div');
+            notif.className = 'event-notification';
+            notif.innerHTML = `
+                <div class="event-title">${title}</div>
+                <div class="event-desc">${desc}</div>
+            `;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 5000);
+        }
+
+        // Passive Income
+        setInterval(() => {
+            if (gameState.passiveIncome > 0) {
+                gameState.balance += gameState.passiveIncome;
+                gameState.totalEarned += gameState.passiveIncome;
+                updateUI();
+                checkTasks();
+                checkAchievements();
+            }
+        }, 1000);
+
+        // Auto-save
+        setInterval(saveGame, 10000);
+
+        // Random Events
+        setInterval(() => {
+            if (Math.random() < 0.1 && gameState.balance > 0) {
+                const events = [
+                    { title: '🎁 Бонус!', desc: 'Вы нашли ' + formatMoney(gameState.passiveIncome * 10) + ' ₽!', effect: () => { gameState.balance += gameState.passiveIncome * 10; } },
+                    { title: '💼 Инвестиция', desc: 'Ваши акции выросли! +' + formatMoney(gameState.balance * 0.05) + ' ₽', effect: () => { gameState.balance += gameState.balance * 0.05; } },
+                    { title: '🎰 Удача!', desc: 'Вы выиграли в лотерею! +' + formatMoney(1000) + ' ₽', effect: () => { gameState.balance += 1000; } }
+                ];
+                
+                const event = events[Math.floor(Math.random() * events.length)];
+                event.effect();
+                updateUI();
+                showNotification(event.title, event.desc);
+            }
+        }, 30000);
+
         // Init
         loadGame();
-        
-        // Prevent zoom on double tap
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (e) => {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                e.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
     </script>
 </body>
 </html>
